@@ -1,10 +1,7 @@
 import numpy as np
-from scipy import ndimage
 from scipy.misc import imread, imsave
 import matplotlib.pyplot as plt
-from PIL import Image
 from time import time
-from skimage import feature
 
 def get_edge_detected_images(image, sob_mode='constant'):    
     '''
