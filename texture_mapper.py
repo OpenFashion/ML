@@ -8,7 +8,7 @@ from data.preprocessing import *
 
 FLAGS = tf.app.flags.FLAGS
 
-def plug_texture(texture, cloath, original_image):
+def plug_texture(texture, cloath, original_image, segment):
 	# repetate texture over the image size
 	if(texture.shape[0] > 400):
 		factor = 400. / texture.shape[0]
@@ -19,8 +19,6 @@ def plug_texture(texture, cloath, original_image):
 		resized_texture = np.repeat(texture, sizes[1], axis=1)
 		resized_texture = np.repeat(resized_texture, sizes[0], axis=0)
 		resized_texture = resized_texture[:original_image.shape[0], :original_image.shape[1]]
-	# get segmented cloath
-	segment = get_segmented_cloath(original_image, cloath)
 	# direct 1 to 1 mapping with no surface analysis
 	resized_texture[segment[:,:] == 0] = [0,0,0]
 
@@ -33,15 +31,13 @@ def plug_texture(texture, cloath, original_image):
 	exit()
 	return image
 
-def get_segmented_cloath(image, cloath):
+def get_segmented_cloath(model, image, cloath):
 	# model is always loaded
 	# perform prediction
 	# return model[cloath].predict_label(image)
-	return seg
+	return None
 
-seg = None
 def mapping_example():
-	global seg
 	X, Yseg, Ybody = get_data_info(FLAGS.data_path, FLAGS.data_labels)
 	image = np.array(imread(X[0], mode='RGB')) /255.
 	
