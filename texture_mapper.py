@@ -31,11 +31,14 @@ def plug_texture(texture, cloath, original_image, segment):
 	exit()
 	return image
 
-def get_segmented_cloath(model, image, cloath):
+def get_segmented_cloath(model, image):
 	# model is always loaded
 	# perform prediction
-	# return model[cloath].predict_label(image)
-	return None
+	def concat(image):
+		image = imresize(image, (FLAGS.height, FLAGS.width))
+		gray = get_edge_detected_images(rgb2gray(image))
+		return np.concatenate((image, gray),axis=2)
+	return model.predict_label(concat(image))
 
 def mapping_example():
 	X, Yseg, Ybody = get_data_info(FLAGS.data_path, FLAGS.data_labels)

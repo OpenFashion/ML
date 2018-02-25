@@ -1,11 +1,10 @@
 import numpy as np
 import tensorflow as tf
 import pandas as pd
+import matplotlib.pyplot as plt
 from scipy.misc import imread, imsave, imresize
 from skimage.color import rgb2gray
 from models.edge_detection import get_edge_detected_images
-from io import BytesIO
-import matplotlib.pyplot as plt
 
 flags = tf.app.flags.FLAGS
 
