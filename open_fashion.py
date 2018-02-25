@@ -48,24 +48,16 @@ def train_parts():
 		BPD.fit(Xbatch, Ybatch)
 	BPD.save(FLAGS.file_bpd)
 
-def train_segmentation():
-	cnn = CNN.CNN()
-	X, Yseg, Ybody = get_data_info(FLAGS.data_path, FLAGS.data_labels)
+def train_segmentation(cnn, X, Y, modelfolder):
+	label = cnn.label
 	for i in range(FLAGS.num_mix):
-		#np.random.shuffle(X)
+		np.random.shuffle(X)
 		Xbatch = get_tensor(X[:FLAGS.batch_size])
-		Ybatch = get_output_tensor(Yseg[:FLAGS.batch_size], FLAGS.label_detection)
+		Ybatch = get_output_tensor(Y[:FLAGS.batch_size], FLAGS.label_detection)
 		cnn.fit(Xbatch, Ybatch)
-		y_hat = cnn.predict_label(get_tensor(X[1:]))
-		seg = y_hat[-1]
-		plt.figure()
-		plt.imshow(seg,cmap='gray')
-		
-	cnn.show()
 
-	exit()
-	cnn.save(FLAGS.file_cnn)
-
+		if i % 10 == 0:
+			cnn.save(modelfolder + '/intermediate/' + label + str(i) + '.ckpt')
 
 def texture_mapping():
 	mapping_example()
