@@ -15,12 +15,13 @@ class CNN:
 		'''
 		pass
 
-	def __init__(self):
+	def __init__(self, label):
+		self.label = label
 		self.session = tf.Session()
 		self.create_graph_segmentation()
 		self.configurate()
 
-	def savemodel(self, model_file):
+	def save(self, model_file):
 		'''
 			@param model_file destination path
 		'''
@@ -28,7 +29,7 @@ class CNN:
 		self.saver.save(self.session, model_file)
 
 
-	def loadmodel(self, model_file):
+	def load(self, model_file):
 		'''
 			@param model_file source of model path
 		'''
